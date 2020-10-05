@@ -113,3 +113,9 @@ import math
 
 from PIL import Image
 from colour import Color
+
+
+#Custom libraries
+
+from manimlib.mobject.tables import *  #mobject tables
+from manimlib.scene.custom_graphs import * #graphiques basés sur des données (csv ou autre)
