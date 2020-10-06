@@ -1,6 +1,7 @@
 from manimlib.mobject.types.vectorized_mobject import VGroup
 from manimlib.mobject.svg.tex_mobject import TexMobject
 from manimlib.mobject.svg.tex_mobject import TextMobject
+
 from manimlib.mobject.geometry import Line
 from manimlib.mobject.geometry import Rectangle
 from manimlib.mobject.geometry import Polygon
@@ -37,7 +38,10 @@ class Table(VGroup):
 
         for i in range(nb_l):
             for j in range(nb_c):
-                elt = TextMobject(elts_list[i][j],color = text_color)
+                #elt = Text(elts_list[i][j],color = text_color, font = "Open Sans Bold Italic")
+
+                if elts_list[i][j] != " " : #TextMobject doesnt like " " strings
+                	elt = TextMobject(elts_list[i][j],color = text_color)
                 elt.move_to([ j * cell_length, -i * cell_height, 0])
 
                 table.add(elt)
