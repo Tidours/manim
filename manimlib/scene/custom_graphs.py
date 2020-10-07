@@ -78,16 +78,19 @@ class SmoothGraphFromSetPoints(VMobject):
 class CustomGraph1(GraphFromData):
     def construct(self):
         self.setup_axes()
-        coords = get_coords_from_csv("custom/data")
+        coords = get_coords_from_csv("myscenes/morpion_data/test")
         dots = self.get_dots_from_coords(coords)
         self.add(dots)
 
 # Discrete Graph
 class CustomGraph2(GraphFromData):
+    CONFIG = {
+        "y_max": 25,
+    }
     def construct(self):
         self.setup_axes()
         # Get coords
-        coords = get_coords_from_csv("custom/data")
+        coords = get_coords_from_csv("myscenes/morpion_data/test")
         points = self.get_points_from_coords(coords)
         # Set graph
         graph = DiscreteGraphFromSetPoints(points,color=ORANGE)

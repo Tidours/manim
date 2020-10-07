@@ -42,9 +42,9 @@ class Table(VGroup):
 
                 if elts_list[i][j] != " " : #TextMobject doesnt like " " strings
                 	elt = TextMobject(elts_list[i][j],color = text_color)
-                elt.move_to([ j * cell_length, -i * cell_height, 0])
+                	elt.move_to([ j * cell_length, -i * cell_height, 0])
 
-                table.add(elt)
+                	table.add(elt)
 
         for i in range(nb_l + 1):
 
