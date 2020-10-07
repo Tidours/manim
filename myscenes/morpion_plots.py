@@ -17,25 +17,36 @@ with open("D:\Tidiane\Personnel\Developpement\Projet Morpion\QLearning/rewards.j
 
 class Sc1(Scene):
     def construct(self):
-        text1 = TextMobject(
-            "Comment les programmes apprennent-ils ?",
-            tex_to_color_map={"text": YELLOW}
-        )
-        text2 = TextMobject(
-            "L'apprentissage par renforcement",
-            
-        )
-        text2.set_color(BLUE)
-        text2.scale(0.75)
-        group = VGroup(text1, text2)
-        group.arrange_submobjects(DOWN)
-        group.set_width(FRAME_WIDTH - 2 * LARGE_BUFF)
 
-        self.play(Write(text1))
-        self.play(Write(text2))
-        self.wait(3)
-        self.play(Uncreate(text1))
-        self.play(Uncreate(text2))
+
+
+        num_ep = Integer(0,edge_to_fix = (0,0,0))
+        tracker_ep = ValueTracker(0)
+        num_ep.add_updater(lambda d: d.set_value(tracker_ep.get_value()))
+        self.add(num_ep.move_to([0,-1,0]))
+
+
+
+
+        for i in range(200): #range(5478):
+              
+              morp = board_list[i] #generate random boards
+              t_morp = Table.get_table(morp,text_color=BLACK,line_color=BLACK,background_color = WHITE)
+              self.add(t_morp.move_to([0,1,0]))
+              
+              tracker_ep.set_value(float( i + 1 ))
+
+
+              self.wait(max(2/(i+1),0.04))
+
+        for i in range(100): #range(5478):
+              morp = board_list[i] #generate random boards
+              t_morp = Table.get_table(morp,text_color=BLACK,line_color=BLACK,background_color = WHITE)
+              self.add(t_morp.move_to([0,1,0]))
+              
+              tracker_ep.set_value(float( i * 51+ 378 ))
+              self.wait(0.05)
+
 
 class Sc2(Scene):
     def construct(self):
@@ -58,7 +69,7 @@ class Sc2(Scene):
         self.add(num_lose.move_to([0,-3,0]))
 
 
-        for i in range(200): #range(5478):
+        for i in range(100): #range(5478):
               
               morp = board_list[i+5]
               t_morp = Table.get_table(morp,text_color=BLACK,line_color=BLACK,background_color = WHITE)
@@ -68,28 +79,27 @@ class Sc2(Scene):
               tracker_win.set_value(float( rewards['win'] [i]))
               tracker_lose.set_value(float( rewards['lose'] [i]))
 
-              self.wait(max(2/(i+1),0.04))
+              self.wait(max(3/(i+1),0.04))
 
-        for i in range(100): #range(5478):
-              morp = board_list[(i+5)%40]
-              t_morp = Table.get_table(morp,text_color=BLACK,line_color=BLACK,background_color = WHITE)
-              self.add(t_morp.move_to([0,1,0]))
-              
-              tracker_ep.set_value(float( i * 51+ 378 ))
-              self.wait(0.05)
+
 
 
 class Sc3(GraphFromData): #graph depuis des données csv
     CONFIG = {
         "x_min" : 0,
         "x_max" : 10000,
+        "x_axis_label": "Coups joués",
+
         "y_min" : 0,
         "y_max" : 1800,
+        "y_axis_label": "Victoires",
         #"graph_origin" : ORIGIN ,
         #"function_color" : RED ,
         #"axes_color" : GREEN,
-        "x_labeled_nums" :range(0,10000,1000),
-        "x_labeled_nums" :range(0,1800,100),
+        "x_tick_frequency": 4000,
+        "y_tick_frequency": 400,
+        "x_labeled_nums" : range(0,10000,4000),
+        "y_labeled_nums" : range(0,1800,400),
  
         }
     def construct(self):
@@ -97,21 +107,25 @@ class Sc3(GraphFromData): #graph depuis des données csv
         self.setup_axes()
         # Get coords
         
-        x = rewards['ep']
-        y_win = rewards['win']
-        y_lose = rewards['lose']
+        x = rewards['ep'][0::500]
+        y_win = rewards['win'][0::500]
+        y_lose = rewards['lose'][0::500]
 
         coords_win = [[px,py] for px,py in zip(x,y_win)]
         coords_lose = [[px,py] for px,py in zip(x,y_lose)]
         #coords = get_coords_from_csv("myscenes/morpion_data/test")
         points_win = self.get_points_from_coords(coords_win)
         points_lose = self.get_points_from_coords(coords_lose)
+
+
         # Set graph
         graph_win = SmoothGraphFromSetPoints(points_win,color=ORANGE)
         graph_lose = SmoothGraphFromSetPoints(points_lose,color=BLUE)
+
+        #area_win = self.get_area(graph_win, 0, 10000)
         #graph = DiscreteGraphFromSetPoints(points,color=ORANGE)
         # Set dots
         #dots = self.get_dots_from_coords(coords)
         #self.add(dots)
-        self.play(ShowCreation(graph_win,run_time=4),ShowCreation(graph_lose,run_time=4))
+        self.play(ShowCreation(graph_win,run_time=10),ShowCreation(graph_lose,run_time=10))#,ShowCreation(area_win,run_time=4))
         self.wait(3)
