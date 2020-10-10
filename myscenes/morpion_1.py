@@ -1,5 +1,7 @@
 from manimlib.imports import *
 import random
+import sys  
+import json
 
 class Sc1(Scene): #TITRE
     def construct(self):
@@ -177,10 +179,12 @@ def get_board_chars(rank): #read the board and returns the rank in the qtable
     if rank%pow(3,r) == 2 : board[r] = 'X' 
   return board
 
+with open("D:\Tidiane\Personnel\Developpement\Projet Morpion\QLearning/board_list.json", 'r') as f:
+    board_list = json.load(f) #taille : 20.000
+
 
 class Sc4(Scene):
     def construct(self):
-
 
 
         num_ep = Integer(0,edge_to_fix = (0,0,0))
@@ -188,20 +192,11 @@ class Sc4(Scene):
         num_ep.add_updater(lambda d: d.set_value(tracker_ep.get_value()))
         self.add(num_ep.move_to([0,-1,0]))
 
-
-
-
         for i in range(200): #range(5478):
               
-              #morp = board_list[i] #generate random boards
+              morp = board_list[random.randrange(20000)] #generate random boards
 
-              board = get_board_chars(random.randrange(30000))
 
-              morp = [  #DEFINITION DES TABLES
-              [board[0],board[1],board[2]],
-              [board[3],board[4],board[5]],
-              [board[6],board[7],board[8]],
-              ]
 
               t_morp = Table.get_table(morp,text_color=BLACK,line_color=BLACK,background_color = WHITE)
               self.add(t_morp.move_to([0,1,0]))
@@ -210,12 +205,49 @@ class Sc4(Scene):
 
 
               self.wait(max(2/(i+1),0.04))
-"""
+
         for i in range(100): #range(5478):
-              morp = board_list[i] #generate random boards
+              morp = board_list[random.randrange(20000)] #generate random boards
               t_morp = Table.get_table(morp,text_color=BLACK,line_color=BLACK,background_color = WHITE)
               self.add(t_morp.move_to([0,1,0]))
               
               tracker_ep.set_value(float( i * 51+ 378 ))
               self.wait(0.05)
-"""
+
+
+
+states1=[]
+
+for i in range(9):
+    states1.append([str(i+1)])
+states1.append(["..."])
+for i in range(5474,5478):
+    states1.append([str(i+1)])
+
+class Sc5(Scene):
+
+    def construct(self):
+        
+        num = Integer(5478,edge_to_fix = (0,0,0))
+        
+
+
+
+        t_states1=Table.get_table(states1,cell_length=2,text_color=WHITE,line_color=WHITE,background_color = BLACK)
+        t_states1.move_to(LEFT)
+        t_states1.scale(0.5)
+        self.add(num.move_to([0,-1,0]))
+        self.wait()
+        self.play(ApplyMethod(num.move_to,[2,0,0]))
+        self.play(Write(t_states1))
+        self.wait()
+
+
+        def f_anim_1(vg):
+          vg.shift(RIGHT + 7 * DOWN)
+          vg.scale(2)
+          return vg
+
+        self.play(ApplyFunction(f_anim_1,t_states1),Uncreate(num))
+        #self.play()
+        self.wait()
