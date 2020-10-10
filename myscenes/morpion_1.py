@@ -183,7 +183,7 @@ with open("D:\Tidiane\Personnel\Developpement\Projet Morpion\QLearning/board_lis
     board_list = json.load(f) #taille : 20.000
 
 
-class Sc4(Scene):
+class Sc4(Scene): #DEFILEMENT DE TOUS LES ETATS DIFFERENTS
     def construct(self):
 
 
@@ -224,7 +224,7 @@ states1.append(["..."])
 for i in range(5474,5478):
     states1.append([str(i+1)])
 
-class Sc5(Scene):
+class Sc5(Scene): #VUE D ENSEMBLE DE LA LISTE D ETATS
 
     def construct(self):
         
