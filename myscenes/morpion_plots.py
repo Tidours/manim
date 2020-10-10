@@ -11,7 +11,12 @@ with open("D:\Tidiane\Personnel\Developpement\Projet Morpion\QLearning/board_lis
 with open("D:\Tidiane\Personnel\Developpement\Projet Morpion\QLearning/rewards.json", 'r') as f:
     rewards = json.load(f)
 
-
+def get_board_chars(rank): #read the board and returns the rank in the qtable
+  board = 9 * [' ']
+  for r in range(0,9):
+    if rank%pow(3,r) == 1 : board[r] = 'O'  
+    if rank%pow(3,r) == 2 : board[r] = 'X' 
+  return board
 
 
 
@@ -31,6 +36,15 @@ class Sc1(Scene):
         for i in range(200): #range(5478):
               
               morp = board_list[i] #generate random boards
+
+              board = get_board_chars()
+
+              morp = [  #DEFINITION DES TABLES
+              [board[1],board[2],board[3]],
+              [board[4],board[5],board[6]],
+              [board[7],board[8],board[9]],
+              ]
+
               t_morp = Table.get_table(morp,text_color=BLACK,line_color=BLACK,background_color = WHITE)
               self.add(t_morp.move_to([0,1,0]))
               
