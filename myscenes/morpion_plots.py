@@ -37,7 +37,7 @@ class Sc1(Scene):
               
               morp = board_list[i] #generate random boards
 
-              board = get_board_chars()
+              board = get_board_chars(i)
 
               morp = [  #DEFINITION DES TABLES
               [board[1],board[2],board[3]],

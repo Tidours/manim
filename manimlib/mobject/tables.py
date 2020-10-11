@@ -16,7 +16,7 @@ class Table(VGroup):
         nb_l = len(elts_list)
         nb_c = len(elts_list[0])
 
-        l_fill = 0.025
+        l_fill = 0.015
 
         table=VGroup() 
         grid=VGroup()
