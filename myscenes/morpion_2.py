@@ -100,7 +100,7 @@ class Sc6(Scene): #DEFILEMENT DE LA LISTE D ETATS
 
 
         #ALLER A L ETAT 100
-        self.play(ApplyMethod(t_etats.shift, 14 * UP),Write(t_morp2.move_to(5 * LEFT)))
+        self.play(ApplyMethod(t_etats.shift, 14 * UP),FadeIn(t_morp2.move_to(5 * LEFT)))
         self.wait()
 
         			#TABLE ACTIONS
@@ -129,7 +129,7 @@ class Sc6(Scene): #DEFILEMENT DE LA LISTE D ETATS
 
         #ALLER A L ETAT 787
         self.play(ApplyMethod(t_etats.shift, 10 * UP),
-        	Write(t_morp3.move_to(5 * LEFT)),
+        	FadeIn(t_morp3.move_to(5 * LEFT)),
         	FadeOutAndShift(t_actions,UP),
         	FadeOutAndShift(group_rewards,UP)
         	)
@@ -230,6 +230,69 @@ class Sc7(Scene): #PARTIE EXEMPLE
 
         				#SURBRILLANCE REWARD MAXIMUM
 
+        self.play(ApplyMethod(t_actions2[1][2].set_color,GREEN))
+        self.play(ApplyMethod(t_actions2[1][2].set_width,0.3))
+        self.play(ApplyMethod(t_actions2[1][2].set_width,0.15))
+        self.play(ApplyMethod(t_actions2[1][2].set_width,0.3))
+
+        self.wait()
+
         				#LES DEUX JOUEURS JOUENT
 
 
+class Sc8(Scene): #VUE D'ENSEMBLE DE TOUTE LA TABLE 
+
+    def construct(self):
+
+
+
+
+
+        etats_1=[]
+
+        for i in range(9):
+          etats_1.append([str(i+1)])
+        etats_1.append(["..."])
+        for i in range(5474,5478):
+          etats_1.append([str(i+1)])
+
+
+
+        t_etats_1=Table.get_table(etats_1,cell_length=2,text_color=WHITE,line_color=WHITE,background_color = BLACK).move_to(2 * LEFT + 7 * DOWN)
+
+
+        group_etats_actions = VGroup()
+        for i in (range(9) + range (10,14)) :
+        	group_etats_actions.add(Table.get_table([["1","1","1","1","1","1","1","1","1"]]).move_to(( i + 0.5) * DOWN + 2 * RIGHT).scale(0.5))
+
+        group_etats_actions.add(t_etats_1)
+        
+
+
+        self.wait()
+
+
+        self.play(FadeIn(group_etats_actions))
+        self.wait()
+
+
+        def f_anim_1(vg):
+          vg.move_to(2 * LEFT )
+          vg.scale(0.5)
+          return vg
+
+        self.play(ApplyFunction(f_anim_1,group_etats_actions))
+ 
+        self.wait()
+
+
+
+#class Sc9(Scene): #PARTIE EXEMPLE EN AJOUTANT LES RECOMPENSES
+
+#    def construct(self):
+
+
+#class Sc10(Scene): #AU MORPION, ON N'A DE RECOMPENSE QUA LA FIN DE LA PARTIE. CERTAINES ACTIONS NE DONNENT PAS DE RECOMPENSES DIRECTEMENT MEME SI ELLES SONT BONNES SUR LE LONG TERME
+
+
+#    def construct(self):
