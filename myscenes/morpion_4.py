@@ -124,7 +124,13 @@ class Sc9(Scene): #PARTIE EXEMPLE EN AJOUTANT LES RECOMPENSES
                 #self.play(ApplyFunction(f_anim_UR_shrink,precedent_group))
 
 
-#class Sc10(Scene): #AU MORPION, ON N'A DE RECOMPENSE QUA LA FIN DE LA PARTIE. CERTAINES ACTIONS NE DONNENT PAS DE RECOMPENSES DIRECTEMENT MEME SI ELLES SONT BONNES SUR LE LONG TERME
+class Sc10(Scene): #AU MORPION, ON N'A DE RECOMPENSE QUA LA FIN DE LA PARTIE. CERTAINES ACTIONS NE DONNENT PAS DE RECOMPENSES DIRECTEMENT MEME SI ELLES SONT BONNES SUR LE LONG TERME
 
 
-#    def construct(self):
+    def construct(self):
+
+      self.add(l_t_morp[0].move_to((0,0,0)))
+      eq = TexMobject("R").move_to(2 * DOWN)
+      eq2 = TexMobject("R", "+", "R^{+1}").move_to(eq)
+      self.play(Write(eq))
+      self.play(Transform(eq,eq2))

@@ -70,24 +70,27 @@ class Sc2(Scene):
         num_ep = Integer(0,edge_to_fix = (0,0,0))
         tracker_ep = ValueTracker(0)
         num_ep.add_updater(lambda d: d.set_value(tracker_ep.get_value()))
-        self.add(num_ep.move_to([0,-1,0]))
+        self.add(num_ep.move_to(3 * DOWN))
+        self.add(TextMobject("Coups joués :").next_to(num_ep,LEFT))
 
         num_win = Integer(0,edge_to_fix = (0,0,0))
         tracker_win = ValueTracker(0)
         num_win.add_updater(lambda d: d.set_value(tracker_win.get_value()))
-        self.add(num_win.move_to([0,-2,0]))
+        self.add(num_win.move_to(2 * DOWN))
+        self.add(TextMobject("O :",color = BLUE).next_to(num_win,LEFT))
 
         num_lose = Integer(0,edge_to_fix = (0,0,0))
         tracker_lose = ValueTracker(0)
         num_lose.add_updater(lambda d: d.set_value(tracker_lose.get_value()))
-        self.add(num_lose.move_to([0,-3,0]))
+        self.add(num_lose.move_to(2 * UP))
+        self.add(TextMobject("X :", color = ORANGE).next_to(num_lose,LEFT))
 
 
-        for i in range(100): #range(5478):
+        for i in range(5): #range(5478):
               
               morp = board_list[i+5]
               t_morp = Table.get_table(morp,text_color=BLACK,line_color=BLACK,background_color = WHITE)
-              self.add(t_morp.move_to([0,1,0]))
+              self.add(t_morp.move_to([0,0,0]))
               
               tracker_ep.set_value(float( i + 1 ))
               tracker_win.set_value(float( rewards['win'] [i]))
