@@ -3,86 +3,8 @@ import random
 import sys  
 import json
 
-POSITIONS = [UL,UP,UR,LEFT,(0,0,0),RIGHT,DL,DOWN,DR]
+from myscenes.morpion_data import *
 
-#TABLES DE MORPIONS
-l_morp=[[
-    ["X"," ", " " ],
-    [" "," ", " " ],
-    [" "," ", " " ],
-     ]
-,[
-    ["O"," ", "O" ],
-    ["X","X", " " ],
-    ["X"," ", "O" ],
-     ]
-,[
-    ["X","X", " " ],
-    [" ","O", "X" ],
-    ["O","O", " " ],
-     ]
-,[
-    ["O","X", "O" ],
-    [" ","X", " " ],
-    [" "," ", "O" ],
-     ]
-]
-
-l_t_morp = VGroup()
-for i in range(len(l_morp)):
-    l_t_morp.add(Table.get_table(l_morp[i]).move_to(5 * LEFT))
-
-#TABLE DES ETATS
-etats=[]
-
-for i in range(9):
-    etats.append([str(i+1)])
-etats.append(["..."])
-for i in range(95,105):
-    etats.append([str(i+1)])
-etats.append(["..."])
-for i in range(782,792):
-    etats.append([str(i+1)])
-
-
-t_etats=Table.get_table(etats,cell_length=2,text_color=WHITE,line_color=WHITE,background_color = BLACK)
-
-
-#TABLES D'ACTIONS
-
-l_actions=[
-[[" "," "," "," "," "," "," "," "," "]],
-[[" "," "," "," "," "," "," "," "," "]],
-[[" "," "," "," "," "," "," "," "," "]],
-[[" "," "," "," "," "," "," "," "," "]]
- ]
-
-
-l_t_actions = VGroup()
-for i in range(len(l_actions)):
-    l_t_actions.add(Table.get_table(l_actions[i],cell_length=0.75,cell_height = 0.75,text_color = BLACK).move_to(3 * RIGHT))
-
-#LETTRES INDIQUANT LES POSITIONS
-
-group_letters = VGroup()
-
-for i in range(3):
-    for j in range(3):
-
-        nb = Text(chr(64+(j+1)+3*i), color = BLUE, size = 0.5).move_to(j*RIGHT+i*DOWN)
-        group_letters.add(nb)
-
-group_letters_2 = group_letters.copy()
-#ELEMENTS SUPPLEMENTAIRES
-
-rect = Rectangle(height=1, width= 2, color = DARK_BLUE,stroke_width = 10 ).move_to(2 * LEFT) #RECTANGLE DE SURBRILLANCE
-
-rewards = [
-            [1,5,7],
-            [1,5,7],
-            [1,5,7],
-            [1,5,7]
-            ]
 
 class Sc6(Scene): #DEFILEMENT DE LA LISTE D ETATS
 
@@ -131,7 +53,7 @@ class Sc6(Scene): #DEFILEMENT DE LA LISTE D ETATS
             self.play(ApplyMethod(t_etats.shift, 10 * UP),
             FadeIn(l_t_morp[i]),
             FadeOutAndShift(l_t_actions[i - 1],UP),
-            FadeInFrom(l_t_actions[i].move_to(3 * RIGHT),DOWN)
+            FadeInFrom(l_t_actions[i],DOWN)
             )
 
             #self.play()
@@ -146,19 +68,6 @@ class Sc6(Scene): #DEFILEMENT DE LA LISTE D ETATS
                 self.play(ApplyMethod(l_t_actions[i][1][index_to_change].set_color,BLUE))
                 self.wait()
 
-
-l_actions=[
-[["1","1","1","1","1","1","1","1","1"]],
-[["1","1","1","1","1","1","1","1","1"]],
-[["1","1","1","1","1","1","1","1","1"]],
-[["1","1","1","1","1","1","1","1","1"]]
-]
-
-l_t_actions = VGroup()
-for i in range(len(l_actions)):
-    l_t_actions.add(Table.get_table(l_actions[i],cell_length=0.75,cell_height = 0.75 , text_color = BLACK).move_to(3 * RIGHT))
-
-l_pos = [ 2,1,6,9 ]
 
 
 
@@ -188,7 +97,7 @@ class Sc7(Scene): #PARTIE EXEMPLE
             if i != 1 :
                 self.play(FadeOutAndShift(l_t_actions[i - 1],UP))
 
-            self.play(FadeInFrom(l_t_actions[i].move_to(3 * RIGHT),DOWN))
+            self.play(FadeInFrom(l_t_actions[i],DOWN))
             self.wait()
 
             joueur = joueur.copy()
@@ -203,11 +112,7 @@ class Sc7(Scene): #PARTIE EXEMPLE
 
             self.play(ApplyMethod(joueur.move_to, 5 * LEFT + POSITIONS[pos] ))      
 
-class Sc8(Sc7): #PARTIE EXEMPLE
 
-    def construct(self):
-
-        self.add(t_etats.move_to(2 * LEFT),rect,l_t_morp[0])    
 
 
 
