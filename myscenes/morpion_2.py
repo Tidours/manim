@@ -211,7 +211,7 @@ class Sc7(Scene): #PARTIE EXEMPLE
         
         self.play(Write(t_actions1.move_to(3 * RIGHT)))
         for i in range(9):
-        	self.play(Write(group_letters_2[i].move_to( i * 0.75 * RIGHT + 0.9 * UP)),run_time=0.1)
+        	self.play(Write(group_letters_2[i].move_to( i * 0.75 * RIGHT + 0.9 * UP)),run_time=0.01)
 
         self.play(Write(group_letters.move_to(5 * LEFT + 0.3 * UL )),run_time=1)
 
