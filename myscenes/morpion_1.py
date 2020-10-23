@@ -83,43 +83,37 @@ class Sc3(Scene): ## EXEMPLE TABLE ETATS ACTIONS MORPION
         #t_morp2=t_morp1.copy()
 
         etats_actions = [
-              ["Deux 'O' sur la ligne (1)","'O' sur la ligne (1)"],
-              ["Deux 'O' sur la ligne (2)","'O' sur la ligne (2)"],
-              ["Deux 'O' sur la ligne (3)","'O' sur la ligne (3)"],
-              ["Deux 'O' sur la colonne (1)","'O' sur la colonne (1)"],
-              ["Deux 'O' sur la colonne (2)","'O' sur la colonne (2)"],
-              ["Deux 'O' sur la colonne (3)","'O' sur la colonne (3)"],
-              ["Deux 'O' sur la diag (1)","'O' sur la diag (1)"],
-
-        ]
-        
-
-        for i in range(10):
-        	etats_actions.append(["...", "..."])
-
-        etats_actions.append(["Deux 'X' sur la ligne (1)","'O' sur la ligne (1)"])
-
-        for i in range(10):
-        	etats_actions.append(["...", "..."])
-        	
-        etats_actions.append(["Deux 'X' sur la colonne (2)","'O' sur la colonne (2)"])
-
-        for i in range(10):
-        	etats_actions.append(["...", "..."])
+              ["J'ai deux pions sur la ligne 1","Mettre un pion sur la ligne 1"],
+              ["J'ai deux pions sur la ligne 2","Mettre un pion sur la ligne 2"],
+              ["J'ai deux pions sur la ligne 3","Mettre un pion sur la ligne 3"],
+              ["J'ai deux pions sur la col. 1","Mettre un pion sur la col. 1"],
+              ["J'ai deux pions sur la col. 2","Mettre un pion sur la col. 2"],
+              ["J'ai deux pions sur la col. 3","Mettre un pion sur la col. 3"],
+              ["J'ai deux pions sur la diag. 1","Mettre un pion sur la diag. 1"],
+              ["J'ai deux pions sur la diag. 2","Mettre un pion sur la diag. 2"],
+              ["L'autre a deux pions sur la ligne 1","Mettre un pion sur la ligne 1"],
+              ["L'autre a deux pions sur la ligne 2","Mettre un pion sur la ligne 2"],
+              ["L'autre a deux pions sur la ligne 3","Mettre un pion sur la ligne 3"],
+              ["L'autre a deux pions sur la col. 1","Mettre un pion sur la col. 1"],
+              ["L'autre a deux pions sur la col. 2","Mettre un pion sur la col. 2"],
+              ["L'autre a deux pions sur la col. 3","Mettre un pion sur la col. 3"],
+              ["L'autre a deux pions sur la diag. 1","Mettre un pion sur la diag. 1"],
+              ["L'autre a deux pions sur la diag. 2","Mettre un pion sur la diag. 2"]
+              ]
 
         t_etats_actions=Table.get_table(etats_actions,
-              cell_length=7,
-              text_color=WHITE,
+              cell_length=8,
+              text_color=GREY,
               line_color=WHITE,
               background_color = BLACK)
 
         t_head=Table.get_table([
               ["Etat","Action"],
               ],
-              cell_length=7,
-              text_color=BLACK,
+              cell_length=8,
+              text_color=WHITE,
               line_color=WHITE,
-              background_color = DARK_BLUE)
+              background_color = BLACK)
 
 
         t_etats_actions.scale(scale_fact)
@@ -139,7 +133,7 @@ class Sc3(Scene): ## EXEMPLE TABLE ETATS ACTIONS MORPION
         self.play(ApplyFunction(f_anim_1,t_morp1))
 
     
-        t_etats_actions.move_to( 19 * scale_fact * DOWN + 2 * RIGHT )
+        t_etats_actions.move_to( 8 * scale_fact * DOWN + 2 * RIGHT )
         t_head.next_to(t_etats_actions,UP)
 
         self.play(FadeInFrom(t_head, UP),FadeInFrom(t_etats_actions, UP))
@@ -149,12 +143,9 @@ class Sc3(Scene): ## EXEMPLE TABLE ETATS ACTIONS MORPION
         self.play(Write(rect.move_to(2 * RIGHT)))
         self.wait(2)
 
-        self.play(ApplyMethod(t_etats_actions.shift, 17 * scale_fact * UP )) #DEFILEMENT DES TABLES
-        self.wait(2)
-        self.play(ApplyMethod(t_etats_actions.shift, 11 * scale_fact * UP ))
-        self.wait(2)
-        self.play(ApplyMethod(t_etats_actions.shift, 11 * scale_fact * UP ))
-        self.wait(2)
+        self.play(
+          ApplyMethod(t_etats_actions[1][0].set_color,WHITE),
+          ApplyMethod(t_etats_actions[1][1].set_color,WHITE))
 
 def get_board_chars(rank): #read the board and returns the rank in the qtable
   board = 9 * [' ']
