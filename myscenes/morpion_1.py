@@ -30,58 +30,42 @@ class Sc2(Scene): # EXEMPLE TABLE ETATS ACTIONS
         
         scale_fact = 0.75
 
-        titre = Table.get_table([["Etats", "Actions"]],cell_length=4.5,text_color=WHITE,line_color=WHITE,background_color = BLACK)
+        t_titre = Table.get_table([["Etats", "Actions"]],cell_length=5,text_color=WHITE,line_color=WHITE,background_color = BLACK)
+        t_etats_actions = Table.get_table(
+          [["Pacman en mode attaque", "S'éloigner de Pacman"],
+          ["Pacman pas en mode attaque", "S'approcher de Pacman"]],cell_length=7.5,cell_height=2,text_color=GREY,line_color=WHITE,background_color = BLACK)
 
-        titre.scale(scale_fact)
-        titre.move_to((0,0,0))
-       
-        etats_actions = [] #DEFINITION MATRICE ETATS - ACTIONS
+        rect = Rectangle(height=2 , width= 15  , color = DARK_BLUE,stroke_width = 10 ).move_to(0.5 * UP) #RECTANGLE DE SURBRILLANCE
 
-        for i in range(1,7):
-        	etats_actions.append(["Etat " + str(i), "    Action "+ str(i)])
-
-        for i in range(5):
-        	etats_actions.append(["...", "..."])
-
-        etats_actions.append(["Ennemi moins fort","Attaquer"])
-
-        for i in range(10):
-        	etats_actions.append(["...", "..."])
-
-        etats_actions.append(["Ennemi plus fort","Fuir"])
-
-        for i in range(10):
-        	etats_actions.append(["...", "..."])
-
-        etats_actions.append(["Devant un trou","Sauter"])
-
-        for i in range(10):
-        	etats_actions.append(["...", "..."])
-
-
-        t_etats_actions = Table.get_table(etats_actions,cell_length=4.5,text_color=WHITE,line_color=WHITE,background_color = BLACK)
-
-        t_etats_actions.scale(scale_fact)
-
-        rect = Rectangle(height=1, width= 9, color = DARK_BLUE,stroke_width = 10 ) #RECTANGLE DE SURBRILLANCE
-        rect.scale(scale_fact)
-
-
-        self.play(Write(titre))
-        self.play(ApplyMethod(titre.move_to, 3*UP ))
         
-        t_etats_actions.move_to( 21.5 * scale_fact * DOWN )
-        self.play(FadeInFrom(t_etats_actions, DOWN))
+        t_titre.scale(scale_fact).move_to(2 * UP)
+        t_etats_actions.scale(2/3 * scale_fact).move_to((0,0,0))
+        rect.scale(2/3 * scale_fact)
+
+
+        txt1 = TexMobject("Etats").move_to(UP)
+        txt2 = TexMobject("Etats", "\Longrightarrow", "Actions").move_to(txt1)
+        self.play(Write(txt1))
+        self.play(Transform(txt1,txt2))
+
+
+        self.play(FadeInFrom(t_titre, DOWN),FadeOutAndShift(txt1,UP))
+        #self.play(ApplyMethod(t_titre.move_to, 3*UP ))
+        
+        self.play(FadeIn(t_etats_actions))
        
         
-        self.play(Write(rect))
+        self.play(Write(rect),
+          ApplyMethod(t_etats_actions[1][0].set_color,WHITE),
+          ApplyMethod(t_etats_actions[1][1].set_color,WHITE))
         self.wait(2)
-        self.play(ApplyMethod(t_etats_actions.shift, 11 * scale_fact * UP ))
+        self.play(ApplyMethod(rect.shift, 4/3 * scale_fact * DOWN ),
+          ApplyMethod(t_etats_actions[1][0].set_color,GREY),
+          ApplyMethod(t_etats_actions[1][1].set_color,GREY),
+          ApplyMethod(t_etats_actions[1][2].set_color,WHITE),
+          ApplyMethod(t_etats_actions[1][3].set_color,WHITE))
         self.wait(2)
-        self.play(ApplyMethod(t_etats_actions.shift, 11 * scale_fact * UP ))
-        self.wait(2)
-        self.play(ApplyMethod(t_etats_actions.shift, 11 * scale_fact * UP ))
-        self.wait(2)
+
 
 class Sc3(Scene): ## EXEMPLE TABLE ETATS ACTIONS MORPION
     def construct(self):
