@@ -72,17 +72,26 @@ class Sc3(Scene): ## EXEMPLE TABLE ETATS ACTIONS MORPION
 
         scale_fact = 0.6
 
-        morp = [  #DEFINITION DES TABLES
+        t_morp1=Table.get_table([  #DEFINITION DES TABLES
+              [" "," ", " " ],
+              [" ","O", " " ],
+              [" "," ", " " ],
+              ],text_color=BLACK,line_color=BLACK,background_color = WHITE).move_to((0,0,0))
+
+        t_morp2=Table.get_table([  #DEFINITION DES TABLES
               ["O"," ", "O" ],
               ["X","X", " " ],
               ["X"," ", "O" ],
-              ]
+              ],text_color=BLACK,line_color=BLACK,background_color = WHITE).move_to(5 * LEFT).scale(0.8)
 
-        t_morp1=Table.get_table(morp,text_color=BLACK,line_color=BLACK,background_color = WHITE)
-
-        #t_morp2=t_morp1.copy()
+        t_morp3=Table.get_table([  #DEFINITION DES TABLES
+              ["O"," ", "O" ],
+              ["X","X", " " ],
+              ["X"," ", "O" ],
+              ],text_color=BLACK,line_color=BLACK,background_color = WHITE).move_to((0,0,0)).move_to(5 * LEFT).scale(0.8)
 
         etats_actions = [
+              ["Aucun pion","Jouer au centre"],
               ["J'ai deux pions sur la ligne 1","Mettre un pion sur la ligne 1"],
               ["J'ai deux pions sur la ligne 2","Mettre un pion sur la ligne 2"],
               ["J'ai deux pions sur la ligne 3","Mettre un pion sur la ligne 3"],
@@ -105,7 +114,7 @@ class Sc3(Scene): ## EXEMPLE TABLE ETATS ACTIONS MORPION
               cell_length=8,
               text_color=GREY,
               line_color=WHITE,
-              background_color = BLACK)
+              background_color = BLACK).move_to( 8 * scale_fact * DOWN + 2 * RIGHT )
 
         t_head=Table.get_table([
               ["Etat","Action"],
@@ -113,15 +122,13 @@ class Sc3(Scene): ## EXEMPLE TABLE ETATS ACTIONS MORPION
               cell_length=8,
               text_color=WHITE,
               line_color=WHITE,
-              background_color = BLACK)
+              background_color = BLACK).next_to(t_etats_actions,UP)
 
+        rect = Rectangle(height=1, width= 16, color = DARK_BLUE,stroke_width = 10 ).move_to(2 * RIGHT) #RECTANGLE DE SURBRILLANCE
 
+        rect.scale(scale_fact)
         t_etats_actions.scale(scale_fact)
         t_head.scale(scale_fact)
-
-        t_morp1.move_to((0,0,0))
-
-
 
         self.play(Write(t_morp1))  #CREATION + SHIFT MORPION 
 
@@ -132,20 +139,25 @@ class Sc3(Scene): ## EXEMPLE TABLE ETATS ACTIONS MORPION
 
         self.play(ApplyFunction(f_anim_1,t_morp1))
 
-    
-        t_etats_actions.move_to( 8 * scale_fact * DOWN + 2 * RIGHT )
-        t_head.next_to(t_etats_actions,UP)
-
         self.play(FadeInFrom(t_head, UP),FadeInFrom(t_etats_actions, UP))
 
-        rect = Rectangle(height=1, width= 14, color = DARK_BLUE,stroke_width = 10 ) #RECTANGLE DE SURBRILLANCE
-        rect.scale(scale_fact)
-        self.play(Write(rect.move_to(2 * RIGHT)))
-        self.wait(2)
+        #
 
-        self.play(
-          ApplyMethod(t_etats_actions[1][0].set_color,WHITE),
-          ApplyMethod(t_etats_actions[1][1].set_color,WHITE))
+        self.play(Write(rect),ApplyMethod(t_etats_actions[1][slice(2)].set_color,WHITE))
+        self.wait()
+        #self.play(ApplyMethod(t_morp1[1][0].set_color,BLUE))
+
+        #
+
+        self.play(FadeIn(t_morp2))
+        self.play(ApplyMethod(t_morp2[1][slice(2)].set_color,BLUE))
+        self.play(rect.shift(2*DOWN),
+          ApplyMethod(t_etats_actions[1][slice(2)].set_color,GREY),
+          ApplyMethod(t_etats_actions[1][slice(4)].set_color,WHITE))
+
+        self.wait()
+        self.play(ApplyMethod(t_morp2[1][3].set_color,BLUE))
+        self.wait()
 
 def get_board_chars(rank): #read the board and returns the rank in the qtable
   board = 9 * [' ']
